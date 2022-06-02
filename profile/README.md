@@ -17,17 +17,17 @@ After 3 years of development, OKP4's team is now composed of 20+ full-time peopl
 <br/>
 
 <p align="center">
-  <a href="https://okp4.network"><img src="./static/discord.svg" width="64" /></a>
+  <a href="https://discord.gg/GHNZh4SaJ3"><img src="./static/discord.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://okp4.network"><img src="./static/linkedin.svg" width="64" /></a>
+  <a href="https://www.linkedin.com/company/okp4-open-knowledge-protocol-for"><img src="./static/linkedin.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://okp4.network"><img src="./static/github.svg" width="64" /></a>
+  <a href="https://github.com/okp4"><img src="./static/github.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://okp4.network"><img src="./static/twitter.svg" width="64" /></a>
+  <a href="https://twitter.com/OKP4_Protocol"><img src="./static/twitter.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://okp4.network"><img src="./static/medium.svg" width="64" /></a>
+  <a href="https://medium.com/okp4"><img src="./static/medium.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://okp4.network"><img src="./static/youtube.svg" width="64" /></a>
+  <a href="https://www.youtube.com/channel/UCiOfcTaUyv2Szv4OQIepIvg"><img src="./static/youtube.svg" width="64" /></a>
 </p>
 
 <p align="center">The data sharing infrastructure of tomorrow and the associated trillion-dollar-industry will shape the future of mankind. Let’s make it decentralized!
