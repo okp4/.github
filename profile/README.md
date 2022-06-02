@@ -6,13 +6,13 @@
 
 <p align="center"><a href="https://okp4.network"><img src="./static/okp4-link.svg" /></a></p>
 
-## The protocol
+## 🔗 The protocol
 
-`OKP4` is built on the [Cosmos SDK](https://v1.cosmos.network/sdk) & [Tendermint](https://tendermint.com/) consensus, and is designed to become a hub of data providers, developer communities, data scientists and users to optimize and maximize value creation.
+`OKP4` is built on the [Cosmos SDK](https://v1.cosmos.network/sdk) 💫 & [Tendermint](https://tendermint.com/) consensus, and is designed to become a hub of data providers, developer communities, data scientists and users to optimize and maximize value creation.
 
 After 3 years of development, OKP4's team is now composed of 20+ full-time people on track to enable scalable real-world decentralized coordination. Through powerful incentive mechanisms and innovative design, we enable anyone to contribute and be rewarded confidently.
 
-## Participating in the community
+## 🙋 Participating in the community
 
 <br/>
 
