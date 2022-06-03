@@ -10,7 +10,7 @@
 
 `OKP4` is built on the [Cosmos SDK](https://v1.cosmos.network/sdk) 💫 & [Tendermint](https://tendermint.com/) consensus, and is designed to become a hub of data providers, developer communities, data scientists and users to optimize and maximize value creation.
 
-After 3 years of development, OKP4's team is now composed of 20+ full-time people on track to enable scalable real-world decentralized coordination. Through powerful incentive mechanisms and innovative design, we enable anyone to contribute and be rewarded confidently.
+After 3+ years of strategy, research and development, OKP4 is almost ready to become the foundation for a scalable Open Dataverse, unlocking a new wave of use cases through real-world decentralized coordination. Our team & community is building a set of tools at the infrastructure, protocol, data and application layers with UX, interoperability, privacy and security in mind, ready to ignite innovation through data sharing.
 
 ## 🙋 Participating in the community
 
