@@ -1,4 +1,4 @@
-![okp4 github banner](/profile/static/okp4-banner.png)
+[![okp4 github banner](/profile/static/okp4-banner.png)](https://okp4.network)
 
 `Open Knowledge Protocol For` is a public [dPoS](https://en.bitcoinwiki.org/wiki/DPoS) layer 1 specifically designed to enable communities to trustlessly share data, algorithms and resources to build the Dataverse - An open world where everybody can create or participate in custom ecosystems (with common governance mechanisms, sharing rules, business models...) to build a new generation of dApps way beyond Decentralized Finance.
 
@@ -27,7 +27,7 @@ After 3+ years of strategy, research and development, OKP4 is almost ready to be
   &nbsp; &nbsp;
   <a href="https://medium.com/okp4"><img src="/profile/static/medium.svg" width="64" /></a>
   &nbsp; &nbsp;
-  <a href="https://www.youtube.com/channel/UCiOfcTaUyv2Szv4OQIepIvgq"><img src="/profile/static/youtube.svg" width="64" /></a>
+  <a href="https://www.youtube.com/channel/UCiOfcTaUyv2Szv4OQIepIvg"><img src="/profile/static/youtube.svg" width="64" /></a>
 </p>
 
 <p align="center">The data sharing infrastructure of tomorrow and the associated trillion-dollar-industry will shape the future of mankind. Let’s make it decentralized!
