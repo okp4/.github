@@ -4,5 +4,6 @@ The following materials are retrieved from the repository <https://github.com/ed
 - github.svg
 - linkedin.svg
 - medium.svg
+- telegram.svg
 - twitter.svg
 - youtube.svg

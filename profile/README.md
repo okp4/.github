@@ -17,7 +17,9 @@ After 3+ years of strategy, research and development, OKP4 is almost ready to be
 <br/>
 
 <p align="center">
-  <a href="https://discord.gg/GHNZh4SaJ3"><img src="/profile/static/discord.svg" width="64" /></a>
+  <a href="https://discord.gg/okp4"><img src="/profile/static/discord.svg" width="64" /></a>
+  &nbsp; &nbsp;
+  <a href="https://t.me/okp4network"><img src="/profile/static/telegram.svg" width="64" /></a>
   &nbsp; &nbsp;
   <a href="https://www.linkedin.com/company/okp4-open-knowledge-protocol-for"><img src="/profile/static/linkedin.svg" width="64" /></a>
   &nbsp; &nbsp;
