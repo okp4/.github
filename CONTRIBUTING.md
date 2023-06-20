@@ -6,7 +6,7 @@
 
 🏭 A few repositories are at the core of our protocol but we are developing a lot of tools, modules and services gravitating around these core projects. There's a diversity of technologies involved, surely you can find something you interested in. Start browsing for projects [here](https://github.com/orgs/okp4/repositories).
 
-📜 Please checkout our [wiki](https://github.com/okp4/wiki/wiki) for technical details.
+📜 Please checkout our [wiki](https://work.okp4.com/dev/dev-home/) for technical details.
 
 🧐 Remember that some projects are mainly designed for [OKP4](https://github.com/okp4) needs. This is why we may have to refuse change requests simply because they do not comply with our internal requirements, and not because they are not relevant.
 
