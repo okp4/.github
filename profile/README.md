@@ -1,6 +1,6 @@
 [![okp4 github banner](/profile/static/okp4-banner-v2.webp)](https://okp4.network)
 
-`Open Knowledge Protocol For` is a public [dPoS](https://en.bitcoinwiki.org/wiki/DPoS) layer 1 specifically designed to enable communities to trustlessly share data, algorithms and resources to build the Dataverse - An open world where everybody can create or participate in custom ecosystems (with common governance mechanisms, sharing rules, business models...) to build a new generation of dApps way beyond Decentralized Finance.
+`Open Knowledge Protocol For` is a public [dPoS](https://en.bitcoinwiki.org/wiki/DPoS) layer 1 specifically designed for coordination of digital assets such as datasets, algorithms, software, storage or computation. Anyone can build and join custom Zones where rules are shared and value flows between participants. OKP4 enables to build a new generation of dApps way beyond Decentralized Finance.
 
 <p align="center">👉 Would you be interested in learning more about what we are building ?</p>
 
@@ -8,7 +8,10 @@
 
 ## 🔗 The protocol
 
-`OKP4` is built on the [Cosmos SDK](https://v1.cosmos.network/sdk) 💫 & [Tendermint](https://tendermint.com/) consensus, and is designed to become a hub of incentivized data providers, developers, data scientists & users collaborating to generate value from data and algorithms.
+`OKP4` is built on the [Cosmos SDK](https://v1.cosmos.network/sdk) 💫 & [Tendermint](https://tendermint.com/) consensus, and allows companies & individuals to define on-chain rules, share any off-chain resources & create a new generation of applications on top of them. With OKP4, share anything digital, on your own terms
+🚀 solves the trust issue related to digital resources sharing
+🚀 sovereign, scalable, multichain & fully customizable (built on Cosmos, leveraging IBC, ICQ & ICA)
+🚀 unlocking real-world value creation, bridging the gap between web2 & web3.
 
 After 3+ years of strategy, research and development, OKP4 is almost ready to become the foundation for a scalable Open Dataverse, unlocking a new wave of use cases through real-world decentralized coordination. Our team & community is building a set of tools at the infrastructure, protocol, data and application layers with UX, interoperability, privacy and security in mind, ready to ignite innovation through data sharing.
 
