@@ -1,0 +1,91 @@
+name: "[Maintenance] Set assignees and reviewers"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Not authorized
+        if: ${{ github.event_name == 'workflow_dispatch' && github.actor != env.AUTH_USER }}
+        run: |
+          echo "Error: Only $AUTH_USER can trigger this workflow."
+          exit 1
+    env:
+      AUTH_USER: "bot-anik"
+
+  set-assignees-reviewers:
+    runs-on: ubuntu-22.04
+    needs:
+      - check-permissions
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.OKP4_TOKEN }}
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.OKP4_BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.OKP4_BOT_GPG_PASSPHRASE }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Set assignees and reviewers
+        env:
+          ORG: okp4
+          REPO_FILTER: --visibility=public --source
+          BRANCH_NAME: ci/update-dependabot-assignees-reviewers
+          DEPENDABOT_FILE: .github/dependabot.yml
+          DEPENDABOT_REVIEWERS: amimart ccamel
+          DEPENDABOT_ASSIGNEES: amimart ccamel
+          PR_REVIEWERS: amimart ccamel
+          PR_ASSIGNEES: amimart ccamel
+        run: |
+          mkdir -p temp
+          cd temp
+
+          repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
+          for repo in $repos; do
+            echo "⬇️ Cloning $repo..."
+            git clone --depth 1 "https://github.com/$repo.git"
+
+            repo_name=$(basename "$repo")
+            cd "$repo_name" || { echo "❌ Failed to enter $repo_name"; continue; }
+
+            if [[ -f "$DEPENDABOT_FILE" ]]; then
+              echo "✅ Dependabot config found. Checking for necessary changes..."
+
+              yq e "(.updates[] | select(has(\"reviewers\")).reviewers) = [\"$(echo $DEPENDABOT_REVIEWERS | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
+              yq e "(.updates[] | select(has(\"assignees\")).assignees) = [\"$(echo $DEPENDABOT_ASSIGNEES | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
+
+              if [[ -n $(git status -s) ]]; then
+                echo "✅ Changes detected. Updating Dependabot configuration..."
+
+                git checkout -b "$BRANCH_NAME"
+
+                git add "$DEPENDABOT_FILE"
+                git commit -m "ci(dependabot): update assignees and reviewers"
+
+                git push --set-upstream origin "$BRANCH_NAME"
+
+                gh pr create \
+                  --title "Update Dependabot assignees and reviewers" \
+                  --body "This PR updates the Dependabot configuration to specify new mainteners." \
+                  --reviewer "$(echo $PR_REVIEWERS | sed 's/ /,/g')" \
+                  --assignee "$(echo $PR_ASSIGNEES | sed 's/ /,/g')"
+
+                echo "🎉 Done!"
+              else
+                echo "☑️ No changes required in Dependabot configuration. Skipping..."
+              fi
+            else
+              echo "🙅 No Dependabot config found in $repo. Skipping..."
+            fi
+
+            cd ..
+            rm -rf "$repo_name"
+          done
