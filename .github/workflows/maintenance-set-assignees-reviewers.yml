@@ -65,14 +65,18 @@ jobs:
 
               if [[ -n $(git status -s) ]]; then
                 echo "✅ Changes detected. Updating Dependabot configuration..."
-
+                echo "│"
+                echo "├── Checking out $BRANCH_NAME..."
                 git checkout -b "$BRANCH_NAME"
-
+                echo "│"
+                echo "├── Committing changes..."
                 git add "$DEPENDABOT_FILE"
-                git commit -m "ci(dependabot): update assignees and reviewers"
-
+                git commit -S -m "ci(dependabot): update assignees and reviewers"
+                echo "│"
+                echo "└── Pushing changes..."
                 git push --set-upstream origin "$BRANCH_NAME"
 
+                echo "🔀 Creating pull request..."
                 gh pr create \
                   --title "Update Dependabot assignees and reviewers" \
                   --body "This PR updates the Dependabot configuration to specify new mainteners." \
