@@ -3,6 +3,9 @@ name: "[Maintenance] Set assignees and reviewers"
 on:
   workflow_dispatch:
 
+env:
+  AUTH_USER: "bot-anik"
+
 jobs:
   check-permissions:
     runs-on: ubuntu-22.04
@@ -12,8 +15,6 @@ jobs:
         run: |
           echo "Error: Only $AUTH_USER can trigger this workflow."
           exit 1
-    env:
-      AUTH_USER: "bot-anik"
 
   set-assignees-reviewers:
     runs-on: ubuntu-22.04
@@ -44,7 +45,7 @@ jobs:
           DEPENDABOT_ASSIGNEES: amimart ccamel
           PR_REVIEWERS: amimart ccamel
           PR_ASSIGNEES: amimart ccamel
-          GITHUB_TOKEN: ${{ secrets.OKP4_TOKEN }}
+          GH_TOKEN: ${{ secrets.OKP4_TOKEN }}
         run: |
           mkdir -p temp
           cd temp
@@ -52,7 +53,7 @@ jobs:
           repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
           for repo in $repos; do
             echo "⬇️ Cloning $repo..."
-            gh repo clone $repo -- --depth 1
+            git clone https://${AUTH_USER}:${GH_TOKEN}@github.com/${repo}.git --depth 1
 
             repo_name=$(basename "$repo")
             cd "$repo_name" || { echo "❌ Failed to enter $repo_name"; continue; }
