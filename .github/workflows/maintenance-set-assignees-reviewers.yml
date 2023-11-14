@@ -52,7 +52,7 @@ jobs:
           repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
           for repo in $repos; do
             echo "⬇️ Cloning $repo..."
-            git clone --depth 1 "https://github.com/$repo.git"
+            gh repo clone $repo -- --depth 1
 
             repo_name=$(basename "$repo")
             cd "$repo_name" || { echo "❌ Failed to enter $repo_name"; continue; }
