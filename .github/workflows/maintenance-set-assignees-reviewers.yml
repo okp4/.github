@@ -44,7 +44,7 @@ jobs:
           DEPENDABOT_REVIEWERS: amimart ccamel
           DEPENDABOT_ASSIGNEES: amimart ccamel
           PR_REVIEWERS: amimart ccamel
-          PR_ASSIGNEES: amimart ccamel
+          PR_ASSIGNEES: "@me"
           PR_TITLE: "Update Dependabot assignees and reviewers"
           PR_BODY: "This PR updates the Dependabot configuration to specify new maintainers."
           COMMIT_MESSAGE: "ci(dependabot): update assignees and reviewers"

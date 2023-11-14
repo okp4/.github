@@ -43,7 +43,7 @@ jobs:
           SOURCE_FILES: ".github/workflows/to-install/*.yml"
           TARGET_DIR: ".github/workflows"
           PR_REVIEWERS: amimart ccamel
-          PR_ASSIGNEES: amimart ccamel
+          PR_ASSIGNEES: "@me"
           PR_TITLE: "Automated Workflow Installation/Update"
           PR_BODY: >-
             This PR is part of an automated maintenance operation. It aims to add or update workflows in the
