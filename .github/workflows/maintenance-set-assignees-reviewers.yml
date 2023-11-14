@@ -45,6 +45,8 @@ jobs:
           DEPENDABOT_ASSIGNEES: amimart ccamel
           PR_REVIEWERS: amimart ccamel
           PR_ASSIGNEES: amimart ccamel
+          PR_TITLE: "Update Dependabot assignees and reviewers"
+          PR_BODY: "This PR updates the Dependabot configuration to specify new maintainers."
           COMMIT_MESSAGE: "ci(dependabot): update assignees and reviewers"
           GH_TOKEN: ${{ secrets.OKP4_TOKEN }}
         run: |
@@ -53,55 +55,58 @@ jobs:
 
           repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
           for repo in $repos; do
-            existing_pr=$(gh pr list --repo "$repo" --head "$BRANCH_NAME" --state open --json number --jq '.[].number')
-            if [[ -n $existing_pr ]]; then
-              echo "🙅 Existing pull request found for branch $BRANCH_NAME (#$existing_pr)."
-              continue
-            fi
+              existing_pr=$(gh pr list --repo "$repo" --head "$BRANCH_NAME" --state open --json number --jq '.[].number')
+              if [[ -n $existing_pr ]]; then
+                  echo "🙅 Existing pull request found for branch $BRANCH_NAME (#$existing_pr)."
+              else
+                  echo "⬇️ Cloning $repo..."
+                  git clone https://${AUTH_USER}:${GH_TOKEN}@github.com/${repo}.git --depth 1
 
-            echo "⬇️ Cloning $repo..."
-            git clone https://${AUTH_USER}:${GH_TOKEN}@github.com/${repo}.git --depth 1
+                  repo_name=$(basename "$repo")
+                  cd "$repo_name" || {
+                      echo "❌ Failed to enter $repo_name"
+                      continue
+                  }
 
-            repo_name=$(basename "$repo")
-            cd "$repo_name" || { echo "❌ Failed to enter $repo_name"; continue; }
+                  if [[ -f "$DEPENDABOT_FILE" ]]; then
+                      echo "✅ Dependabot config found. Checking for necessary changes..."
 
-            if [[ ! -f "$DEPENDABOT_FILE" ]]; then
-              echo "🙅 No Dependabot config found in $repo. Skipping..."
-              continue
-            fi
+                      yq e "(.updates[] | select(has(\"reviewers\")).reviewers) = [\"$(echo $DEPENDABOT_REVIEWERS | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
+                      yq e "(.updates[] | select(has(\"assignees\")).assignees) = [\"$(echo $DEPENDABOT_ASSIGNEES | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
 
-            echo "✅ Dependabot config found. Checking for necessary changes..."
+                      if [[ -n $(git status -s) ]]; then
+                          echo "✅ Changes detected. Updating Dependabot configuration..."
+                          echo "│"
+                          echo "├── Checking out $BRANCH_NAME..."
+                          git checkout -b "$BRANCH_NAME"
+                          echo "│"
+                          echo "├── Committing changes..."
+                          git add "$DEPENDABOT_FILE"
+                          git commit -S -m "$COMMIT_MESSAGE"
+                          echo "│"
+                          echo "└── Pushing changes..."
+                          git push --set-upstream origin "$BRANCH_NAME"
 
-            yq e "(.updates[] | select(has(\"reviewers\")).reviewers) = [\"$(echo $DEPENDABOT_REVIEWERS | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
-            yq e "(.updates[] | select(has(\"assignees\")).assignees) = [\"$(echo $DEPENDABOT_ASSIGNEES | sed 's/ /\",\"/g')\"]" -i "$DEPENDABOT_FILE"
+                          echo "🔀 Creating pull request..."
+                          gh pr create \
+                              --title "$PR_TITLE" \
+                              --body "$PR_BODY" \
+                              --reviewer "$(echo $PR_REVIEWERS | sed 's/ /,/g')" \
+                              --assignee "$(echo $PR_ASSIGNEES | sed 's/ /,/g')" \
+                              --head $(git branch --show-current)
+                      else
+                          echo "☑️ No changes required in Dependabot configuration."
+                      fi
+                  else
+                      echo "🙅 No Dependabot config found in $repo."
+                  fi
 
-            if [[ ! -n $(git status -s) ]]; then
-              echo "☑️ No changes required in Dependabot configuration. Skipping..."
-              continue
-            fi
-
-            echo "✅ Changes detected. Updating Dependabot configuration..."
-            echo "│"
-            echo "├── Checking out $BRANCH_NAME..."
-            git checkout -b "$BRANCH_NAME"
-            echo "│"
-            echo "├── Committing changes..."
-            git add "$DEPENDABOT_FILE"
-            git commit -S -m "$COMMIT_MESSAGE"
-            echo "│"
-            echo "└── Pushing changes..."
-            git push --set-upstream origin "$BRANCH_NAME"
-
-            echo "🔀 Creating pull request..."
-            gh pr create \
-              --title "Update Dependabot assignees and reviewers" \
-              --body "This PR updates the Dependabot configuration to specify new mainteners." \
-              --reviewer "$(echo $PR_REVIEWERS | sed 's/ /,/g')" \
-              --assignee "$(echo $PR_ASSIGNEES | sed 's/ /,/g')" \
-              --head $(git branch --show-current)
-
-            echo "🎉 Done!"
-
-            cd ..
-            rm -rf "$repo_name"
+                  cd ..
+                  rm -rf "$repo_name"
+              fi
           done
+
+          cd ..
+          rm -rf temp
+
+          echo "🎉 Done!"
