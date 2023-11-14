@@ -44,6 +44,7 @@ jobs:
           DEPENDABOT_ASSIGNEES: amimart ccamel
           PR_REVIEWERS: amimart ccamel
           PR_ASSIGNEES: amimart ccamel
+          GITHUB_TOKEN: ${{ secrets.OKP4_TOKEN }}
         run: |
           mkdir -p temp
           cd temp
