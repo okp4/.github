@@ -1,0 +1,121 @@
+name: "[Maintenance] Install workflows (to all open-source repos)"
+
+on:
+  workflow_dispatch:
+
+env:
+  AUTH_USER: "bot-anik"
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Not authorized
+        if: ${{ github.event_name == 'workflow_dispatch' && github.actor != env.AUTH_USER }}
+        run: |
+          echo "Error: Only $AUTH_USER can trigger this workflow."
+          exit 1
+
+  install-workflow:
+    runs-on: ubuntu-22.04
+    needs:
+      - check-permissions
+    steps:
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.OKP4_BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.OKP4_BOT_GPG_PASSPHRASE }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.OKP4_TOKEN }}
+
+      - name: Install workflows
+        env:
+          ORG: okp4
+          REPO_FILTER: --visibility=public --source
+          BRANCH_NAME: ci/install-workflows
+          SOURCE_FILES: ".github/workflows/to-install/*.yml"
+          TARGET_DIR: ".github/workflows"
+          PR_REVIEWERS: amimart ccamel
+          PR_ASSIGNEES: "@me"
+          PR_TITLE: "Automated Workflow Installation/Update"
+          PR_BODY: >-
+            This PR is part of an automated maintenance operation. It aims to add or update workflows in the
+            repository to enhance automation and ensure consistency across operations.
+          COMMIT_MESSAGE: "ci(workflow): add/update workflows (automated maintenance)"
+          GH_TOKEN: ${{ secrets.OKP4_TOKEN }}
+        run: |
+          root_path=$(pwd)
+
+          mkdir -p temp
+          cd temp
+
+          repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
+          for repo in $repos; do
+              existing_pr=$(gh pr list --repo "$repo" --head "$BRANCH_NAME" --state open --json number --jq '.[].number')
+              if [[ -n $existing_pr ]]; then
+                  echo "🙅 Existing pull request found for branch $BRANCH_NAME (#$existing_pr)."
+                  continue
+              fi
+
+              echo "⬇️ Cloning $repo..."
+              git clone https://${AUTH_USER}:${GH_TOKEN}@github.com/${repo}.git --depth 1
+
+              repo_name=$(basename "$repo")
+              cd "$repo_name" || {
+                  echo "❌ Failed to enter $repo_name"
+                  continue
+              }
+
+              echo "✅ Installing workflows..."
+
+              echo "│"
+              echo "├── Checking out $BRANCH_NAME..."
+
+              git checkout -b "$BRANCH_NAME"
+
+              echo "│"
+              echo "├── Copying files from $root_path/$SOURCE_FILES to $TARGET_DIR..."
+              cp $root_path/$SOURCE_FILES $TARGET_DIR
+
+              if [[ ! -n $(git status -s) ]]; then
+                  echo "│"
+                  echo "└── No changes..."
+              else
+                  echo "│"
+                  echo "├── Committing changes..."
+
+                  git add -A
+                  git commit -S -m "$COMMIT_MESSAGE"
+
+                  echo "│"
+                  echo "└── Pushing changes..."
+
+                  git push --set-upstream origin "$BRANCH_NAME"
+
+                  echo "🔀 Creating pull request..."
+                  gh pr create \
+                      --title "$PR_TITLE" \
+                      --body "$PR_BODY" \
+                      --reviewer "$(echo $PR_REVIEWERS | sed 's/ /,/g')" \
+                      --assignee "$(echo $PR_ASSIGNEES | sed 's/ /,/g')" \
+                      --head $(git branch --show-current)
+              fi
+
+              echo "🧹 Cleaning up..."
+              cd ..
+              rm -rf "$repo_name"
+
+              exit 1
+          done
+
+          echo "🧹 Cleaning up..."
+          cd ..
+          rm -rf temp
+          echo "🎉 Done!"
