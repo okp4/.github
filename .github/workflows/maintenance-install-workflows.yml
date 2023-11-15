@@ -111,8 +111,6 @@ jobs:
               echo "🧹 Cleaning up..."
               cd ..
               rm -rf "$repo_name"
-
-              exit 1
           done
 
           echo "🧹 Cleaning up..."
