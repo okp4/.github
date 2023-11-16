@@ -39,6 +39,7 @@ jobs:
         env:
           ORG: okp4
           REPO_FILTER: --visibility=public --source
+          REPO_LIMIT: 100
           BRANCH_NAME: ci/install-workflows
           SOURCE_FILES: ".github/workflows/to-install/*.yml"
           TARGET_DIR: ".github/workflows"
@@ -56,7 +57,7 @@ jobs:
           mkdir -p temp
           cd temp
 
-          repos=$(gh repo list $ORG $REPO_FILTER --json nameWithOwner --jq '.[].nameWithOwner' | sort)
+          repos=$(gh repo list $ORG $REPO_FILTER --limit $REPO_LIMIT --json nameWithOwner --jq '.[].nameWithOwner' | sort)
           for repo in $repos; do
               existing_pr=$(gh pr list --repo "$repo" --head "$BRANCH_NAME" --state open --json number --jq '.[].number')
               if [[ -n $existing_pr ]]; then
