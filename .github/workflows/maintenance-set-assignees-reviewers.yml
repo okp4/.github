@@ -38,7 +38,7 @@ jobs:
       - name: Set assignees and reviewers
         env:
           ORG: okp4
-          REPO_FILTER: --visibility=public --source
+          REPO_FILTER: --visibility=public --source --no-archived
           REPO_LIMIT: 100
           BRANCH_NAME: ci/update-dependabot-assignees-reviewers
           DEPENDABOT_FILE: .github/dependabot.yml

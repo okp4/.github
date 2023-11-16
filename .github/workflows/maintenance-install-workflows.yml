@@ -38,7 +38,7 @@ jobs:
       - name: Install workflows
         env:
           ORG: okp4
-          REPO_FILTER: --visibility=public --source
+          REPO_FILTER: --visibility=public --source --no-archived
           REPO_LIMIT: 100
           BRANCH_NAME: ci/install-workflows
           SOURCE_FILES: ".github/workflows/to-install/*.yml"
