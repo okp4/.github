@@ -1,5 +1,20 @@
 [![okp4 github banner](/profile/static/okp4-banner-v2.webp)](https://okp4.network)
 
+> [!IMPORTANT]
+> ## Rebranding and project transfer
+> The **OKP4** organization has been rebranded as [**Axone**](https://axone.xyz). As part of this transition, several core projects have been transferred to the new organization you can find here:
+>
+> <p align="center"><a href="https://github.com/axone-protocol">https://github.com/axone-protocol</a></p>
+>
+> For more details on this transition, please refer to the discussion here: [community/discussions/18](https://github.com/okp4/community/discussions/18).
+>
+> For any inquiries, feel free to reach out to us on the new [GitHub organization](https://github.com/axone-protocol) page.
+>
+> Thank you for your understanding and cooperation.
+>
+> The OKP4 (now Axone) Team
+<hr>
+
 `Open Knowledge Protocol For` is a public [dPoS](https://en.bitcoinwiki.org/wiki/DPoS) layer 1 specifically designed for coordination of digital assets such as datasets, algorithms, software, storage or computation. Anyone can build and join custom Zones where rules are shared and value flows between participants. OKP4 enables to build a new generation of dApps way beyond Decentralized Finance.
 
 <p align="center">👉 Would you be interested in learning more about what we are building ?</p>
